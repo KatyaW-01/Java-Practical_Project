@@ -54,8 +54,7 @@ public class MOB implements Attributes{
   public MOB copy(){
     //Copies the mob to a new mob
     //does not care about any damage taken
-    MOB mobCopy = new MOB(name,maxHP,armor,hitModifier,damageDie);
-    return mobCopy;
+    return new MOB(name, maxHP, armor, hitModifier, damageDie);
   }
 
   public void addDamage(int damage){

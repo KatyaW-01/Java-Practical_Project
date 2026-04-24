@@ -1,6 +1,6 @@
 public class Fortune implements Attributes{
   private final int armor;
-  private DiceType dtype;
+  private final DiceType dtype;
   private final int hitModifier;
   private final int hpBonus;
   private final String name;
@@ -18,6 +18,7 @@ public class Fortune implements Attributes{
     this.armor = armor;
     this.hitModifier = hitModifier;
     this.hpBonus = hpBonus;
+    this.dtype = null;
   }
 
   @Override
