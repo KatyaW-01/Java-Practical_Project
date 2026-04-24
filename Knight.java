@@ -97,6 +97,8 @@ public class Knight extends MOB {
     Knight knight = new Knight(01,"Guinevere", 35,12,1,DiceType.D6,0);
     Fortune fortune = new Fortune("Valor",10,1,3,DiceType.D8);
     System.out.println("---TESTS IN KNIGHT BEFORE ACTIVE FORTUNE IS ADDED---");
+    System.out.println("TESTING to string in knight: ");
+    System.out.println(knight.toString());
     System.out.println("TESTING get Active Fortune in knight (should be null): " + knight.getActiveFortune());
     System.out.println("TESTING get armor in knight (should be 12): " + knight.getArmor());
     System.out.println("TESTING get damage die in knight (Should be 6): " + knight.getDamageDie());
