@@ -1,7 +1,7 @@
 import java.util.List;
 import java.util.Scanner;
 
-public class ConsoleView implements GameView{ //add implements GameView
+public class ConsoleView implements GameView{
   private final Scanner in = new Scanner(System.in);
 
   public ConsoleView(){
@@ -10,7 +10,8 @@ public class ConsoleView implements GameView{ //add implements GameView
 
   public boolean checkContinue(){
     System.out.println("Would you like to continue on your quest (y/n)? ");
-    if(in.nextLine().equalsIgnoreCase("y") || in.nextLine().equalsIgnoreCase("yes")){
+    String userInput = in.nextLine();
+    if(userInput.equalsIgnoreCase("y") || userInput.equalsIgnoreCase("yes")){
       return true;
     }
     return false;
@@ -101,7 +102,8 @@ public class ConsoleView implements GameView{ //add implements GameView
   }
 
   public static void main(String[] args){
-    
+    ConsoleView console = new ConsoleView();
+    System.out.println("TESTING check continue in Console View " + console.checkContinue());
   }
   
 }
