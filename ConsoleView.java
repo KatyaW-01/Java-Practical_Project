@@ -1,4 +1,5 @@
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class ConsoleView implements GameView{
@@ -104,6 +105,33 @@ public class ConsoleView implements GameView{
   public static void main(String[] args){
     ConsoleView console = new ConsoleView();
     System.out.println("TESTING check continue in Console View " + console.checkContinue());
+    System.out.println("TESTING display main menu in Console View " + console.displayMainMenu());
+    System.out.print("TESTING end game in Console View ");
+    console.endGame();
+    System.out.println("TESTING knight not found in Console View ");
+    console.knightNotFound();
+
+    List<Knight> knights = new ArrayList<>();
+
+    System.out.println("TESTING list knights in Console View ");
+    console.listKnights(knights);
+
+  
+    Knight guinevere = new Knight(03,"Guinevere",35,12,1,DiceType.D6,0);
+    Knight morrigan = new Knight(04,"Morrigan Ravenskind",30,15,1,DiceType.D8,0);
+    Knight eriu = new Knight(05,"Eriu",21,13,2,DiceType.D4,0);
+    Knight danu = new Knight(06,"Danu of Ireland",40,16,1,DiceType.D6,0);
+    Knight fodla = new Knight(07,"Fodla",25,10,2,DiceType.D8,0);
+    knights.add(guinevere);
+    knights.add(morrigan);
+    knights.add(eriu);
+    knights.add(danu);
+    knights.add(fodla);
+
+    System.out.println("TESTING list knights in Console View ");
+    console.listKnights(knights);
+
+
   }
   
 }
