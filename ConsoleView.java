@@ -53,6 +53,9 @@ public class ConsoleView implements GameView{
       if(i < monsters.size() && monsters.get(i) != null){
         System.out.print(monsters.get(i).getName() + "\n");
       }
+      else{
+        System.out.println("\n");
+      }
     }
   }
 
@@ -104,6 +107,8 @@ public class ConsoleView implements GameView{
 
   public static void main(String[] args){
     ConsoleView console = new ConsoleView();
+    System.out.println("TESTING splash screen in console view: ");
+    console.splashScreen();
     System.out.println("TESTING check continue in Console View " + console.checkContinue());
     System.out.println("TESTING display main menu in Console View " + console.displayMainMenu());
     System.out.print("TESTING end game in Console View ");
@@ -130,8 +135,34 @@ public class ConsoleView implements GameView{
 
     System.out.println("TESTING list knights in Console View ");
     console.listKnights(knights);
+    System.out.println();
 
+    List<MOB> monsters = new ArrayList<>();
+    MOB beholder = new MOB("Beholder",100,15,2,DiceType.D10);
+    MOB mind = new MOB("Mind Flayer",75,12,1,DiceType.D8);
+    monsters.add(beholder);
+    monsters.add(mind);
 
+    System.out.println("TESTING battle text in Console View ");
+    knights.remove(fodla);
+    console.printBattleText(monsters,knights);
+
+    System.out.println("TESTING battle text in Console View: ");
+    console.printBattleText(beholder);
+
+    System.out.println("TESTING print fortunes in console view: ");
+    Fortune ftn = new Fortune("Selflessness",10,0,1);
+    Fortune ftn2 = new Fortune("Excellence",10,0,0,DiceType.D12);
+    guinevere.setActiveFortune(ftn);
+    danu.setActiveFortune(ftn2);
+    console.printFortunes(knights);
+
+    System.out.println("TESTING print help in console view: ");
+    console.printHelp();
+    System.out.println("TESTING set active failed in console view: ");
+    console.setActiveFailed();
+    System.out.println("TESTING show knight in console view: ");
+    console.showKnight(morrigan);
   }
   
 }
