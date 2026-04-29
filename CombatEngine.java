@@ -33,8 +33,25 @@ public class CombatEngine {
   public void clear(){
     //reset all fortunes to null across all knights
     for(int i = 0; i < data.knights.size(); ++i){
-      Knight knight = data.activeKnights.get(i);
+      Knight knight = data.knights.get(i);
       knight.setActiveFortune(null);
     }
+  }
+
+  public static void main(String[] args){
+    //Testing initialize method
+    GameData data = new CSVGameData("gamedata.csv","knights.csv");
+    GameView view = new ConsoleView();
+    CombatEngine engine = new CombatEngine(data, view);
+    System.out.println("TESTING initialize in combat engine: ");
+    Knight gwain = data.getKnight("Gwain");
+    Knight morrigan = data.getKnight("Morrigan");
+    System.out.println(data.setActive(gwain) + " " + data.setActive(morrigan));
+    engine.initialize();
+    //Testing clear
+    System.out.println("TESTING clear in combat engine (both outputs should be null): ");
+    engine.clear();
+    System.out.println(data.getKnight("Gwain").getActiveFortune());
+    System.out.println(data.getKnight("Morrigan").getActiveFortune());
   }
 }
