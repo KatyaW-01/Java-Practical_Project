@@ -48,9 +48,7 @@ public abstract class GameData{
   public void removeActive(Knight kt){
     //reset damage and remove knight
     kt.resetDamage();
-    if(activeKnights.remove(kt)){
-      System.out.println("knight successfully removed");
-    }
+    activeKnights.remove(kt);
   }
 
   public Fortune getRandomFortune(){
