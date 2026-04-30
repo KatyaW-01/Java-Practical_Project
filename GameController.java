@@ -46,9 +46,14 @@ public class GameController {
       }
     }
     else if(command.toLowerCase().contains("explore") || command.toLowerCase().contains("adventure") || command.toLowerCase().contains("quest")){
-      //start a combat sequence
-      System.out.println("Combat coming soon");
-      engine.runCombat();
+      //start a combat sequence if there are active knights
+      if(data.activeKnights.size() > 0){
+        engine.initialize();
+        engine.runCombat();
+      }
+      else {
+        System.out.println("Oops, you have no active knights. Add active knights to start your quest!");
+      }
     }
     else {
       view.printHelp();
