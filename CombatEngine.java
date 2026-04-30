@@ -1,5 +1,5 @@
 import java.util.Random;
-// import java.util.List;
+import java.util.List;
 
 public class CombatEngine {
   private final GameData data;
@@ -22,13 +22,82 @@ public class CombatEngine {
   }
 
   public void runCombat(){
+    boolean proceed = true;
+    List<Knight> knights = data.activeKnights;
+    List<MOB> monsters = data.getRandomMonsters();
+  
+    view.printBattleText(monsters,knights);
+    
+    while(proceed){
+      doBattle(knights,monsters); //knights attack first
+      doBattle(monsters,knights);
+      
+      if(knights.size() == 0 ){
+        view.printDefeated();
+        proceed = false;
+      }
+      else if(monsters.size() == 0){
+        if(view.checkContinue()){
+          //if user wants to continue, get more monsters
+          monsters = data.getRandomMonsters();
+        }
+        else {
+          proceed = false;
+        }
+      }
+      else {
+        if(view.checkContinue() == false){
+          proceed = false;
+        }
+      }
+    }
 
+    view.displayMainMenu(); 
   }
 
-  //helper method for run combat
-  // private int doBattle(List<MOB> attackers, List<MOB> defenders){
+  private void doBattle(List<? extends MOB> attackers, List<? extends MOB> defenders){
+    int attackSize = attackers.size();
+    int defendSize = defenders.size();
+    int defendIndex = rnd.nextInt(defendSize);
 
-  // }
+    //cycle through attackers having them attack a random defender
+    for(int i = 0; i < attackSize; ++i){
+      MOB attacker = attackers.get(i);
+      MOB defender = defenders.get(defendIndex);
+      attack(attacker,defender);
+    }
+  }
+
+  //check if attacker makes successfull hit and add damage to defender if needed
+  public void attack(MOB attacker,MOB defender){
+    int attackRoll = DiceType.D20.roll();
+
+    if(attackRoll + attacker.getHitModifier() > defender.getArmor()){
+      DiceType damageDie = attacker.getDamageDie();
+      int damageRoll = damageDie.roll();
+
+      defender.addDamage(damageRoll);
+
+      //if defender has no more health, print battle message
+      if(defender.getHP() <= 0){
+        manageDefeat(defender);
+      } 
+    }
+  }
+
+  public void manageDefeat(MOB dead){
+    view.printBattleText(dead);
+    if(dead instanceof Knight){
+      //if a Knight, remove from active knights
+      data.removeActive((Knight) dead);
+    }
+    else {
+      //if a MOB, give every active knight 1 xp point
+      for(int i = 0; i < data.activeKnights.size(); ++i){
+        data.activeKnights.get(i).addXP(1);
+      }
+    }
+  }
 
   public void clear(){
     //reset all fortunes to null across all knights
