@@ -48,6 +48,7 @@ public class GameController {
     else if(command.toLowerCase().contains("explore") || command.toLowerCase().contains("adventure") || command.toLowerCase().contains("quest")){
       //start a combat sequence
       System.out.println("Combat coming soon");
+      engine.runCombat();
     }
     else {
       view.printHelp();
