@@ -38,7 +38,7 @@ public abstract class GameData{
   }
 
   public boolean setActive(Knight kt){
-    if(activeKnights.size() < MAX_ACTIVE){
+    if(activeKnights.size() < MAX_ACTIVE && kt != null){
       activeKnights.add(kt);
       return true;
     }
@@ -47,8 +47,13 @@ public abstract class GameData{
 
   public void removeActive(Knight kt){
     //reset damage and remove knight
-    kt.resetDamage();
-    activeKnights.remove(kt);
+      if(kt != null){
+         kt.resetDamage();
+        activeKnights.remove(kt);
+      }
+      else {
+        System.out.println("ERROR removing knight");
+      }
   }
 
   public Fortune getRandomFortune(){

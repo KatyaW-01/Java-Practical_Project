@@ -23,14 +23,13 @@ public class GameController {
     else if (command.toLowerCase().contains("ls") || command.toLowerCase().contains("list all")){
       view.listKnights(data.getKnights());
     }
-    else if (command.toLowerCase().contains("list active")){
+    else if (command.toLowerCase().contains("list active") || command.toLowerCase().contains("listactive")){
       view.listKnights(data.getActiveKnights());
     }
     else if (command.toLowerCase().contains("show")){
       //accounts for if the user does not include spaces or has leading whitespaces
       if(command.length() > 4){
         String substring = command.trim().substring(4);
-        System.out.println("SUBSTRING:" + substring);
         processShowKnight(substring.trim());
       }
       else {
@@ -45,6 +44,7 @@ public class GameController {
       processRemoveActive(command);
     }
     else if(command.toLowerCase().contains("save")){
+      //add error handling
       String[] words = command.trim().split(" ");
       if(words.length > 1){
         data.save(words[1]);
@@ -54,6 +54,7 @@ public class GameController {
       }
     }
     else if(command.toLowerCase().contains("explore") || command.toLowerCase().contains("adventure") || command.toLowerCase().contains("quest")){
+      //add error handling
       //start a combat sequence if there are active knights
       if(data.activeKnights.size() > 0){
         engine.initialize();
@@ -70,24 +71,37 @@ public class GameController {
   }
 
   private void processRemoveActive(String remove){
-    String[] words = remove.split(" ");
-    data.removeActive(data.getKnight(words[1]));
+    //accounts for inputs such as removeNAME, remove NAME, remove active NAME
+    String[] words = remove.trim().split(" ");
+    if(words.length == 2){
+      data.removeActive(data.getKnight(words[1]));
+    }
+    else if(words.length == 3){
+      data.removeActive(data.getKnight(words[2]));
+    }
+    else if(words.length < 2 && remove.length() > 6){
+      String substring = remove.trim().substring(6);
+      data.removeActive(data.getKnight(substring));
+    }
+    
   }
 
   private void processSetActive(String active){
-    
+    boolean success = true;
     if(data.activeKnights.size() == 4){
       view.setActiveFailed();
     }
     else {
       String[] words = active.trim().split(" ");
       if(words.length == 2 && words[1].length() > 6){
-        data.setActive(data.getKnight(words[1].substring(6)));
+        success = data.setActive(data.getKnight(words[1].substring(6)));
       }
       else if(words.length == 3){
-        data.setActive(data.getKnight(words[2]));
-      }
-        
+        success = data.setActive(data.getKnight(words[2]));
+      }  
+    }
+    if(!success){
+      System.out.println("Error setting active knight, please try again.");
     }
   }
 
