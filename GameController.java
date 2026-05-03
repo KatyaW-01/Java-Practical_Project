@@ -27,8 +27,16 @@ public class GameController {
       view.listKnights(data.getActiveKnights());
     }
     else if (command.toLowerCase().contains("show")){
-      String[] words = command.split(" ");
-      processShowKnight(words[1]);
+      //accounts for if the user does not include spaces or has leading whitespaces
+      if(command.length() > 4){
+        String substring = command.trim().substring(4);
+        System.out.println("SUBSTRING:" + substring);
+        processShowKnight(substring.trim());
+      }
+      else {
+        processShowKnight(null);
+      }
+ 
     }
     else if (command.toLowerCase().contains("set active")){
       processSetActive(command);
@@ -67,10 +75,19 @@ public class GameController {
   }
 
   private void processSetActive(String active){
-    String[] words = active.split(" ");
-    boolean success = data.setActive(data.getKnight(words[2]));
-    if(!success){
+    
+    if(data.activeKnights.size() == 4){
       view.setActiveFailed();
+    }
+    else {
+      String[] words = active.trim().split(" ");
+      if(words.length == 2 && words[1].length() > 6){
+        data.setActive(data.getKnight(words[1].substring(6)));
+      }
+      else if(words.length == 3){
+        data.setActive(data.getKnight(words[2]));
+      }
+        
     }
   }
 
