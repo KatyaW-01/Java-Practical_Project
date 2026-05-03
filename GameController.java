@@ -46,8 +46,12 @@ public class GameController {
     else if(command.toLowerCase().contains("save")){
       //add error handling
       String[] words = command.trim().split(" ");
-      if(words.length > 1){
+      if(words.length > 1 && words[1].contains(".csv")){
         data.save(words[1]);
+      }
+      else if(words.length < 2 && command.trim().length() > 4 && command.contains(".csv")){
+        String substring = command.trim().substring(4);
+        data.save(substring);
       }
       else {
         data.save("saveData.csv");
