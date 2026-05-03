@@ -44,7 +44,6 @@ public class GameController {
       processRemoveActive(command);
     }
     else if(command.toLowerCase().contains("save")){
-      //add error handling
       String[] words = command.trim().split(" ");
       if(words.length > 1 && words[1].contains(".csv")){
         data.save(words[1]);
@@ -58,7 +57,6 @@ public class GameController {
       }
     }
     else if(command.toLowerCase().contains("explore") || command.toLowerCase().contains("adventure") || command.toLowerCase().contains("quest")){
-      //add error handling
       //start a combat sequence if there are active knights
       if(data.activeKnights.size() > 0){
         engine.initialize();
