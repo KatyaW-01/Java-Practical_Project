@@ -29,9 +29,10 @@ public class CombatEngine {
     view.printBattleText(monsters,knights);
     
     while(proceed){
-      doBattle(knights,monsters); //knights attack first
-      doBattle(monsters,knights);
-      
+      //if no knights or monsters are defeated, continue battle
+      if(doBattle(knights,monsters) + doBattle(monsters,knights) == 0){
+        continue;
+      }
       if(knights.size() == 0 ){
         view.printDefeated();
         proceed = false;
@@ -51,26 +52,29 @@ public class CombatEngine {
         }
       }
     }
-
-    view.displayMainMenu(); 
+    //if finished, remove active fortunes from knights
+    clear();
   }
 
-  private void doBattle(List<? extends MOB> attackers, List<? extends MOB> defenders){
+  private int doBattle(List<? extends MOB> attackers, List<? extends MOB> defenders){
     int attackSize = attackers.size();
     int defendSize = defenders.size();
     int defendIndex = rnd.nextInt(defendSize);
+    int numVictories = 0;
 
     //cycle through attackers having them attack a random defender
     for(int i = 0; i < attackSize; ++i){
       MOB attacker = attackers.get(i);
-      MOB defender = defenders.get(defendIndex);
-      attack(attacker,defender);
+      MOB defender = defenders.get(defendIndex); //index out of bounds error?
+      numVictories += attack(attacker,defender);
     }
+    return numVictories;
   }
 
   //check if attacker makes successfull hit and add damage to defender if needed
-  public void attack(MOB attacker,MOB defender){
+  public int attack(MOB attacker,MOB defender){
     int attackRoll = DiceType.D20.roll();
+    int count = 0;
 
     if(attackRoll + attacker.getHitModifier() > defender.getArmor()){
       DiceType damageDie = attacker.getDamageDie();
@@ -81,8 +85,10 @@ public class CombatEngine {
       //if defender has no more health, print battle message
       if(defender.getHP() <= 0){
         manageDefeat(defender);
+        count += 1;
       } 
     }
+    return count;
   }
 
   public void manageDefeat(MOB dead){
