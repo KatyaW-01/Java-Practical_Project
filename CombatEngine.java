@@ -15,34 +15,39 @@ public class CombatEngine {
   public void initialize(){
     //assign active knights with a random fortune
     for(int i = 0; i < data.activeKnights.size(); ++i){
-      Knight knight = data.activeKnights.get(i);
-      knight.setActiveFortune(data.getRandomFortune());
+      data.activeKnights.get(i).setActiveFortune(data.getRandomFortune());
     }
     view.printFortunes(data.activeKnights);
   }
 
   public void runCombat(){
     boolean proceed = true;
-    List<Knight> knights = data.activeKnights;
     List<MOB> monsters = data.getRandomMonsters();
-  
-    view.printBattleText(monsters,knights);
+    List<Knight> activeKnights = data.activeKnights;
+
+    view.printBattleText(monsters,activeKnights);
     
     while(proceed){
-      int result = doBattle(knights,monsters) + doBattle(monsters,knights);
-   
+      int result = 0;
+      if(activeKnights.size() > 0 && monsters.size() > 0){
+        result += doBattle(activeKnights,monsters);
+      }
+      if(monsters.size() > 0 && activeKnights.size() > 0){
+        result += doBattle(monsters,activeKnights);
+      }
+
       if(monsters.size() == 0){
         if(view.checkContinue()){
           //if user wants to continue, get more monsters
           monsters = data.getRandomMonsters();
-          view.printBattleText(monsters, knights);
+          view.printBattleText(monsters, activeKnights);
           continue;
         }
         else {
           proceed = false;
         }
       }
-      else if(knights.size() == 0 ){
+      else if(activeKnights.size() == 0 ){
         view.printDefeated();
         proceed = false;
       }
@@ -69,20 +74,16 @@ public class CombatEngine {
 
     //cycle through attackers having them attack a random defender
     for(int i = 0; i < attackSize; ++i){
+      //remove defeated defenders, exit loop if there are no more defenders
+      defenders.removeIf(d -> d.getHP() <= 0);
       if(defenders.size() == 0) break;
+
       int defendIndex = rnd.nextInt(defenders.size());
       MOB attacker = attackers.get(i);
       MOB defender = defenders.get(defendIndex);
-      //choose different defender if already dead
-      while(defender.getHP() <= 0 && defenders.size() > 0) {
-        defendIndex = rnd.nextInt(defenders.size());
-        defender = defenders.get(defendIndex);
-      }
       numVictories += attack(attacker,defender);
     }
-    //remove defeated defenders 
-    defenders.removeIf(d -> d.getHP() <= 0);
-
+    
     return numVictories;
   }
 

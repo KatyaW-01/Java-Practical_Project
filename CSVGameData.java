@@ -18,7 +18,7 @@ public class CSVGameData extends GameData {
       Scanner line = new Scanner(file.nextLine());
       line.useDelimiter(",");
       Knight kt = new Knight(
-        ++ counter,
+        ++counter,
         line.next().trim(),
         line.nextInt(),
         line.nextInt(),
