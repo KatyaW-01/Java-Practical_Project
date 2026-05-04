@@ -10,7 +10,7 @@ public enum DiceType{
 		  this.size = size;
 	  }
 
-    public int roll(){
+    public int Roll(){
       return random_machine.nextInt(this.size) + 1;
     }
   }

@@ -88,12 +88,12 @@ public class CombatEngine {
 
   //check if attacker makes successfull hit and add damage to defender if needed
   public int attack(MOB attacker,MOB defender){
-    int attackRoll = DiceType.D20.roll();
+    int attackRoll = DiceType.D20.Roll();
     int count = 0;
 
     if(attackRoll + attacker.getHitModifier() > defender.getArmor()){
       DiceType damageDie = attacker.getDamageDie();
-      int damageRoll = damageDie.roll();
+      int damageRoll = damageDie.Roll();
 
       defender.addDamage(damageRoll);
 
