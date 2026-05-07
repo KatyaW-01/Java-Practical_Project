@@ -139,7 +139,7 @@ public class CSVGameData extends GameData {
     //get random monsters
     System.out.println("TESTING get random monsters: ");
     System.out.println(data.getRandomMonsters());
-    // data.getKnight("danu").addXP(3);
-    // data.save("knights.csv");
+    data.getKnight("danu").addXP(3);
+    data.save("testData.csv");
   }
 }
